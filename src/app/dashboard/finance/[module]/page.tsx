@@ -1,33 +1,10 @@
 import React from "react";
 import FinancePlaceholder from "@/components/FinancePlaceholder";
+import FinanceGenericModuleView from "@/components/finance/FinanceGenericModuleView";
 import StudentBilling from "@/components/finance/StudentBilling";
 import Payroll from "@/components/finance/Payroll";
 import ExpenseManagement from "@/components/finance/ExpenseManagement";
-
-const MODULE_TITLES: Record<string, string> = {
-    "fee-structure": "Fee Structure Management",
-    "student-billing": "Student Billing",
-    "accounts-receivable": "Accounts Receivable",
-    "payments": "Payment Management",
-    "refunds": "Refund Management",
-    "scholarships": "Scholarship & Waiver",
-    "student-ledger": "Student Ledger",
-    "general-accounting": "General Accounting",
-    "chart-of-accounts": "Chart of Accounts",
-    "journal-ledger": "Journal & Ledger",
-    "accounts-payable": "Accounts Payable",
-    "vendor-management": "Vendor Management",
-    "expenses": "Expense Management",
-    "budgets": "Budget Management",
-    "bank-cash": "Bank & Cash Management",
-    "payroll": "Payroll",
-    "tax": "Tax & Statutory",
-    "reporting": "Financial Reporting",
-    "dashboard": "Financial Dashboard",
-    "reconciliation": "Reconciliation",
-    "audit": "Audit & Controls",
-    "configuration": "Finance Configuration",
-};
+import { financeConfigs } from "@/lib/financeModuleConfigs";
 
 export default async function FinanceModulePage({ params }: { params: Promise<{ module: string }> }) {
     const { module } = await params;
@@ -45,8 +22,13 @@ export default async function FinanceModulePage({ params }: { params: Promise<{ 
         return <ExpenseManagement />;
     }
     
-    // Otherwise render the premium placeholder
-    const title = MODULE_TITLES[module] || "Finance Module";
+    // If we have a generic config for it, render the detailed generic view
+    const config = financeConfigs[module];
+    if (config) {
+        return <FinanceGenericModuleView config={config} />;
+    }
     
+    // Fallback to placeholder if something is missing
+    const title = module.replace("-", " ").toUpperCase();
     return <FinancePlaceholder moduleName={title} />;
 }
