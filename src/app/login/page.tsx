@@ -4,12 +4,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Mail, Lock } from "lucide-react";
+import { DEMO_ACCOUNTS, DEFAULT_PASSWORD } from "@/lib/demoAuth";
 
-const DEMO_ACCOUNTS = [
-    { label: "Admin Portal", email: "admin@erp.com", password: "password", role: "admin", color: "bg-indigo-50 text-indigo-700 border-indigo-100 hover:bg-indigo-100 hover:border-indigo-200" },
-    { label: "Student Portal", email: "student@erp.com", password: "password", role: "student", color: "bg-blue-50 text-blue-700 border-blue-100 hover:bg-blue-100 hover:border-blue-200" },
-    { label: "Faculty Portal", email: "faculty@erp.com", password: "password", role: "faculty", color: "bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100 hover:border-emerald-200" },
-    { label: "Finance Portal", email: "finance@erp.com", password: "password", role: "finance_officer", color: "bg-amber-50 text-amber-700 border-amber-100 hover:bg-amber-100 hover:border-amber-200" },
+const DEMO_ACCOUNT_LIST = [
+    { label: "Admin Portal", email: "admin@erp.com", color: "bg-indigo-50 text-indigo-700 border-indigo-100 hover:bg-indigo-100 hover:border-indigo-200" },
+    { label: "Student Portal", email: "student@erp.com", color: "bg-blue-50 text-blue-700 border-blue-100 hover:bg-blue-100 hover:border-blue-200" },
+    { label: "Faculty Portal", email: "faculty@erp.com", color: "bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100 hover:border-emerald-200" },
+    { label: "Finance Portal", email: "finance@erp.com", color: "bg-amber-50 text-amber-700 border-amber-100 hover:bg-amber-100 hover:border-amber-200" },
 ];
 
 export default function LoginPage() {
@@ -176,13 +177,13 @@ export default function LoginPage() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
-                        {DEMO_ACCOUNTS.map((acc) => (
+                        {DEMO_ACCOUNT_LIST.map((acc) => (
                             <button
-                                key={acc.role}
+                                key={acc.email}
                                 type="button"
                                 onClick={() => {
                                     setEmail(acc.email);
-                                    setPassword(acc.password);
+                                    setPassword(DEFAULT_PASSWORD);
                                 }}
                                 className={`px-4 py-3 text-sm font-semibold rounded-xl border transition-all flex items-center justify-center text-center ${acc.color}`}
                             >

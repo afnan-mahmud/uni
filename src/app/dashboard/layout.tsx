@@ -3,13 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-
-interface User {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-}
+import { canAccessRoute, type DemoUser, type UserRole } from "@/lib/demoAuth";
 
 interface NavItem {
     label: string;
@@ -167,7 +161,6 @@ const ROLE_NAV: Record<string, NavItem[]> = {
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
-        ...ADMINISTRATION_MODULE_NAV,
         ...ADMINISTRATION_MODULE_NAV,
         { label: "Payments", href: "/dashboard/payments", icon: "💰" },
         { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
@@ -487,7 +480,7 @@ export default function DashboardLayout({
 }) {
     const router = useRouter();
     const pathname = usePathname();
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<DemoUser | null>(null);
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -501,10 +494,21 @@ export default function DashboardLayout({
         }
 
         if (userData) {
-            setUser(JSON.parse(userData));
+            try {
+                setUser(JSON.parse(userData));
+            } catch {
+                // ignore
+            }
         }
         setLoading(false);
     }, [router]);
+
+    useEffect(() => {
+        if (loading) return;
+        if (!canAccessRoute(pathname)) {
+            router.push("/dashboard");
+        }
+    }, [pathname, loading, router]);
 
     function handleLogout() {
         localStorage.removeItem("token");
@@ -585,9 +589,17 @@ export default function DashboardLayout({
                     {/* User */}
                     <div className="px-4 py-4 border-t border-slate-800">
                         <div className="flex items-center gap-3">
-                            <div className="w-9 h-9 gradient-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                {user?.name?.charAt(0)?.toUpperCase() || "U"}
-                            </div>
+                            {user?.avatar ? (
+                                <img
+                                    src={user.avatar}
+                                    alt={user.name}
+                                    className="w-9 h-9 rounded-full object-cover border border-slate-700"
+                                />
+                            ) : (
+                                <div className="w-9 h-9 gradient-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                                </div>
+                            )}
                             <div className="flex-1 min-w-0">
                                 <p className="text-sm text-white font-medium truncate">
                                     {user?.name}
@@ -666,9 +678,17 @@ export default function DashboardLayout({
                                 </svg>
                                 <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white"></span>
                             </Link>
-                            <div className="w-9 h-9 gradient-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                                {user?.name?.charAt(0)?.toUpperCase() || "U"}
-                            </div>
+                            {user?.avatar ? (
+                                <img
+                                    src={user.avatar}
+                                    alt={user.name}
+                                    className="w-9 h-9 rounded-full object-cover border border-slate-200"
+                                />
+                            ) : (
+                                <div className="w-9 h-9 gradient-primary rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                    {user?.name?.charAt(0)?.toUpperCase() || "U"}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </header>

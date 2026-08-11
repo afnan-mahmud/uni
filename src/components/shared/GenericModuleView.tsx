@@ -1,4 +1,6 @@
-import React from 'react';
+"use client";
+
+import { useMemo, useState } from "react";
 
 export interface ModuleConfig {
   title: string;
@@ -8,9 +10,20 @@ export interface ModuleConfig {
   kpis: { label: string; value: string; color: string }[];
   columns: string[];
   data: (string | React.ReactNode)[][];
+  emptyMessage?: string;
 }
 
 export default function GenericModuleView({ config }: { config: ModuleConfig }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredData = useMemo(() => {
+    if (!searchTerm.trim()) return config.data;
+    const term = searchTerm.toLowerCase();
+    return config.data.filter((row) =>
+      row.some((cell) => String(cell).toLowerCase().includes(term))
+    );
+  }, [config.data, searchTerm]);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -45,7 +58,13 @@ export default function GenericModuleView({ config }: { config: ModuleConfig }) 
         <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
           <h3 className="font-semibold text-slate-800">Recent Records</h3>
           <div className="relative">
-            <input type="text" placeholder="Search records..." className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 w-64" />
+            <input
+              type="text"
+              placeholder="Search records..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 w-64"
+            />
             <svg className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
           </div>
         </div>
@@ -59,15 +78,23 @@ export default function GenericModuleView({ config }: { config: ModuleConfig }) 
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {config.data.map((row, rowIdx) => (
-                <tr key={rowIdx} className="hover:bg-slate-50/50 transition">
-                  {row.map((cell, cellIdx) => (
-                    <td key={cellIdx} className={`px-6 py-4 text-sm ${cellIdx === 0 ? 'font-medium text-slate-800' : 'text-slate-500'}`}>
-                      {cell}
-                    </td>
-                  ))}
+              {filteredData.length > 0 ? (
+                filteredData.map((row, rowIdx) => (
+                  <tr key={rowIdx} className="hover:bg-slate-50/50 transition">
+                    {row.map((cell, cellIdx) => (
+                      <td key={cellIdx} className={`px-6 py-4 text-sm ${cellIdx === 0 ? 'font-medium text-slate-800' : 'text-slate-500'}`}>
+                        {cell}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={config.columns.length} className="px-6 py-8 text-center text-slate-500">
+                    {config.emptyMessage || "No records found matching your search."}
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>

@@ -3,6 +3,7 @@ import { dbConnect } from "@/lib/db";
 import User from "@/models/User";
 import { signToken } from "@/lib/jwt";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { DEMO_ACCOUNTS, DEFAULT_PASSWORD } from "@/lib/demoAuth";
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,14 +15,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Demo Login Bypass
-        const DEMO_ACCOUNTS: Record<string, any> = {
-            "admin@erp.com": { id: "demo-admin", name: "Admin User", role: "admin", phone: "1234567890" },
-            "student@erp.com": { id: "demo-student", name: "John Doe", role: "student", phone: "1234567890" },
-            "faculty@erp.com": { id: "demo-faculty", name: "Dr. Smith", role: "faculty", phone: "1234567890" },
-            "finance@erp.com": { id: "demo-finance", name: "Jane Doe", role: "finance_officer", phone: "1234567890" },
-        };
-
-        if (DEMO_ACCOUNTS[email] && password === "password") {
+        if (DEMO_ACCOUNTS[email] && password === DEFAULT_PASSWORD) {
             const demoUser = DEMO_ACCOUNTS[email];
             const token = signToken({
                 userId: demoUser.id,
@@ -29,7 +23,7 @@ export async function POST(req: NextRequest) {
                 role: demoUser.role,
             });
             return successResponse(
-                { token, user: { ...demoUser, email } },
+                { token, user: demoUser },
                 "Demo login successful",
                 200
             );
