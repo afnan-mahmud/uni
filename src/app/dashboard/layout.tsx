@@ -21,12 +21,12 @@ interface NavItem {
 const STUDENT_PORTAL_NAV: NavItem[] = [
     { label: "My Master Profile", href: "/dashboard/students/master-profile", icon: "👤" },
     { label: "My ID Card", href: "/dashboard/students/identity", icon: "🪪" },
-    { label: "Personal Info", href: "/dashboard/students/personal-info", icon: "📄" },
-    { label: "Emergency Contact", href: "/dashboard/students/emergency", icon: "🚑" },
-    { label: "Academic Profile", href: "/dashboard/students/academic-profile", icon: "🎓" },
+    { label: "My Personal Info", href: "/dashboard/students/personal-info", icon: "📄" },
+    { label: "My Emergency Contact", href: "/dashboard/students/emergency", icon: "🚑" },
+    { label: "My Academic Profile", href: "/dashboard/students/academic-profile", icon: "🎓" },
 
     { label: "Enrollment Status", href: "/dashboard/students/enrollment", icon: "✅" },
-    { label: "Course Registration", href: "/dashboard/students/registration", icon: "📚" },
+    { label: "My Course Reg", href: "/dashboard/students/registration", icon: "📚" },
     { label: "My Progress", href: "/dashboard/students/progress", icon: "📈" },
     { label: "My Attendance", href: "/dashboard/students/attendance", icon: "🕒" },
     { label: "Exam Schedule", href: "/dashboard/students/examination", icon: "📋" },
@@ -342,12 +342,12 @@ const GROUP_MAPPING: Record<string, string> = {
 
     "My Master Profile": "My Profile",
     "My ID Card": "My Profile",
-    "Personal Info": "My Profile",
-    "Emergency Contact": "My Profile",
-    "Academic Profile": "My Profile",
+    "My Personal Info": "My Profile",
+    "My Emergency Contact": "My Profile",
+    "My Academic Profile": "My Profile",
 
     "Enrollment Status": "My Academics",
-    "Course Registration": "My Academics",
+    "My Course Reg": "My Academics",
     "My Progress": "My Academics",
     "My Attendance": "My Academics",
     "Exam Schedule": "My Academics",
