@@ -18,6 +18,32 @@ interface NavItem {
 }
 
 
+const ACADEMIC_MODULE_NAV: NavItem[] = [
+    { label: "Institution Structure", href: "/dashboard/academics/institution-structure", icon: "🏛️" },
+    { label: "Academic Year", href: "/dashboard/academics/academic-year", icon: "📅" },
+
+    { label: "Program Management", href: "/dashboard/academics/program-management", icon: "🎓" },
+    { label: "Course Management", href: "/dashboard/academics/course-management", icon: "📚" },
+    { label: "Curriculum Management", href: "/dashboard/academics/curriculum", icon: "📜" },
+
+    { label: "Class Sections", href: "/dashboard/academics/section-management", icon: "🏫" },
+    { label: "Class Scheduling", href: "/dashboard/academics/class-scheduling", icon: "⏰" },
+    { label: "Academic Calendar", href: "/dashboard/academics/calendar", icon: "🗓️" },
+
+    { label: "Course Reg Setup", href: "/dashboard/academics/registration", icon: "📝" },
+    { label: "Academic Advising", href: "/dashboard/academics/advising", icon: "🤝" },
+    { label: "Academic Requests", href: "/dashboard/academics/requests", icon: "✉️" },
+
+    { label: "Attendance Record", href: "/dashboard/academics/attendance", icon: "✅" },
+    { label: "Assessment Setup", href: "/dashboard/academics/assessment", icon: "📝" },
+    { label: "Exam Management", href: "/dashboard/academics/examination", icon: "📋" },
+    { label: "Result & Grading", href: "/dashboard/academics/result-grading", icon: "📊" },
+    { label: "Student Progress", href: "/dashboard/academics/progress", icon: "📈" },
+
+    { label: "Academic Documents", href: "/dashboard/academics/documents", icon: "📄" },
+    { label: "Academic Analytics", href: "/dashboard/academics/analytics", icon: "📉" }
+];
+
 const STUDENT_PORTAL_NAV: NavItem[] = [
     { label: "My Master Profile", href: "/dashboard/students/master-profile", icon: "👤" },
     { label: "My ID Card", href: "/dashboard/students/identity", icon: "🪪" },
@@ -96,56 +122,35 @@ const ROLE_NAV: Record<string, NavItem[]> = {
     super_admin: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
-        { label: "Departments", href: "/dashboard/departments", icon: "🏛️" },
-        { label: "Programs", href: "/dashboard/programs", icon: "🎓" },
-        { label: "Courses", href: "/dashboard/courses", icon: "📚" },
-        { label: "Semesters", href: "/dashboard/semesters", icon: "📅" },
-        { label: "Registrations", href: "/dashboard/registrations", icon: "📝" },
-        { label: "Attendance", href: "/dashboard/attendance", icon: "✅" },
-        { label: "Exams", href: "/dashboard/exams", icon: "📋" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
+        ...ACADEMIC_MODULE_NAV,
+        ...ACADEMIC_MODULE_NAV,
+                                                                        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
         { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     admin: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
-        { label: "Departments", href: "/dashboard/departments", icon: "🏛️" },
-        { label: "Programs", href: "/dashboard/programs", icon: "🎓" },
-        { label: "Courses", href: "/dashboard/courses", icon: "📚" },
-        { label: "Semesters", href: "/dashboard/semesters", icon: "📅" },
-        { label: "Registrations", href: "/dashboard/registrations", icon: "📝" },
-        { label: "Attendance", href: "/dashboard/attendance", icon: "✅" },
-        { label: "Exams", href: "/dashboard/exams", icon: "📋" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
+        ...ACADEMIC_MODULE_NAV,
+                                                                        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
         { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     registrar: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
-        { label: "Registrations", href: "/dashboard/registrations", icon: "📝" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Semesters", href: "/dashboard/semesters", icon: "📅" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        ...ACADEMIC_MODULE_NAV,
+                                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     dean: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
+        ...ACADEMIC_MODULE_NAV,
         { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-        { label: "Departments", href: "/dashboard/departments", icon: "🏛️" },
-        { label: "Programs", href: "/dashboard/programs", icon: "🎓" },
-        { label: "Courses", href: "/dashboard/courses", icon: "📚" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+                                        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     hod: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
+        ...ACADEMIC_MODULE_NAV,
         { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-        { label: "Courses", href: "/dashboard/courses", icon: "📚" },
-        { label: "Registrations", href: "/dashboard/registrations", icon: "📝" },
-        { label: "Attendance", href: "/dashboard/attendance", icon: "✅" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+                                        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     faculty: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
@@ -231,11 +236,8 @@ const ROLE_NAV: Record<string, NavItem[]> = {
     it_admin: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
-        { label: "Departments", href: "/dashboard/departments", icon: "🏛️" },
-        { label: "Programs", href: "/dashboard/programs", icon: "🎓" },
-        { label: "Courses", href: "/dashboard/courses", icon: "📚" },
-        { label: "Semesters", href: "/dashboard/semesters", icon: "📅" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        ...ACADEMIC_MODULE_NAV,
+                                        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
 };
 
@@ -367,6 +369,31 @@ const GROUP_MAPPING: Record<string, string> = {
     "Hostel Info": "Facilities & Activities",
     "Transport Pass": "Facilities & Activities",
     "My Clubs": "Facilities & Activities",
+
+
+    "Institution Structure": "Institution & Structure",
+    "Academic Year": "Institution & Structure",
+
+    "Program Management": "Programs & Courses",
+    "Course Management": "Programs & Courses",
+    "Curriculum Management": "Programs & Courses",
+
+    "Class Sections": "Scheduling & Classes",
+    "Class Scheduling": "Scheduling & Classes",
+    "Academic Calendar": "Scheduling & Classes",
+
+    "Course Reg Setup": "Enrollment & Advising",
+    "Academic Advising": "Enrollment & Advising",
+    "Academic Requests": "Enrollment & Advising",
+
+    "Attendance Record": "Assessment & Progress",
+    "Assessment Setup": "Assessment & Progress",
+    "Exam Management": "Assessment & Progress",
+    "Result & Grading": "Assessment & Progress",
+    "Student Progress": "Assessment & Progress",
+
+    "Academic Documents": "Records & Analytics",
+    "Academic Analytics": "Records & Analytics",
 
 };
 export default function DashboardLayout({
