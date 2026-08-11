@@ -44,6 +44,22 @@ const ACADEMIC_MODULE_NAV: NavItem[] = [
     { label: "Academic Analytics", href: "/dashboard/academics/analytics", icon: "📉" }
 ];
 
+
+const FACULTY_PORTAL_NAV: NavItem[] = [
+    { label: "My Classes", href: "/dashboard/academics/section-management", icon: "🏫" },
+    { label: "My Schedule", href: "/dashboard/academics/class-scheduling", icon: "⏰" },
+    { label: "Academic Calendar", href: "/dashboard/academics/calendar", icon: "🗓️" },
+    
+    { label: "Advisee Students", href: "/dashboard/academics/advising", icon: "🤝" },
+    
+    { label: "Attendance Entry", href: "/dashboard/academics/attendance", icon: "✅" },
+    { label: "Assessments Setup", href: "/dashboard/academics/assessment", icon: "📝" },
+    { label: "Exam Duties", href: "/dashboard/academics/examination", icon: "📋" },
+    { label: "Marks Entry", href: "/dashboard/academics/result-grading", icon: "📊" },
+    
+    { label: "Faculty Analytics", href: "/dashboard/academics/analytics", icon: "📉" }
+];
+
 const STUDENT_PORTAL_NAV: NavItem[] = [
     { label: "My Master Profile", href: "/dashboard/students/master-profile", icon: "👤" },
     { label: "My ID Card", href: "/dashboard/students/identity", icon: "🪪" },
@@ -123,41 +139,37 @@ const ROLE_NAV: Record<string, NavItem[]> = {
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
-        ...ACADEMIC_MODULE_NAV,
-                                                                        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
+        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
         { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     admin: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
-                                                                        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
+        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
         { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     registrar: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
-                                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     dean: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...ACADEMIC_MODULE_NAV,
         { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-                                        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     hod: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...ACADEMIC_MODULE_NAV,
         { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-                                        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     faculty: [
         { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Courses", href: "/dashboard/courses", icon: "📚" },
-        { label: "Attendance", href: "/dashboard/attendance", icon: "✅" },
-        { label: "Exams", href: "/dashboard/exams", icon: "📋" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
+        ...FACULTY_PORTAL_NAV,
         { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
     student: [
@@ -237,7 +249,7 @@ const ROLE_NAV: Record<string, NavItem[]> = {
         { label: "Overview", href: "/dashboard", icon: "📊" },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
-                                        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
     ],
 };
 
@@ -394,6 +406,19 @@ const GROUP_MAPPING: Record<string, string> = {
 
     "Academic Documents": "Records & Analytics",
     "Academic Analytics": "Records & Analytics",
+
+
+    "My Classes": "Scheduling & Classes",
+    "My Schedule": "Scheduling & Classes",
+    
+    "Advisee Students": "Enrollment & Advising",
+    
+    "Attendance Entry": "Assessment & Progress",
+    "Assessments Setup": "Assessment & Progress",
+    "Exam Duties": "Assessment & Progress",
+    "Marks Entry": "Assessment & Progress",
+    
+    "Faculty Analytics": "Records & Analytics",
 
 };
 export default function DashboardLayout({
