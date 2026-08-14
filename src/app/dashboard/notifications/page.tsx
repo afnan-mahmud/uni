@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { BellOff, CreditCard, Bell } from "lucide-react";
 
 interface NotificationItem {
     _id: string;
@@ -73,7 +74,9 @@ export default function NotificationsPage() {
             <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {notifications.length === 0 ? (
                     <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
-                        <div className="text-4xl mb-3">🔔</div>
+                        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+                            <BellOff size={22} strokeWidth={1.75} />
+                        </div>
                         <p className="text-gray-500">No notifications yet.</p>
                     </div>
                 ) : (
@@ -88,8 +91,14 @@ export default function NotificationsPage() {
                             >
                                 <div className="flex items-start justify-between mb-2">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-2xl">
-                                            {notification.type === "payment" ? "💰" : "🔔"}
+                                        <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${
+                                            notification.type === "payment"
+                                                ? "bg-emerald-50 text-emerald-600"
+                                                : "bg-indigo-50 text-indigo-600"
+                                        }`}>
+                                            {notification.type === "payment"
+                                                ? <CreditCard size={16} strokeWidth={1.75} />
+                                                : <Bell size={16} strokeWidth={1.75} />}
                                         </span>
                                         <h3 className="font-semibold text-gray-900">
                                             {notification.title}

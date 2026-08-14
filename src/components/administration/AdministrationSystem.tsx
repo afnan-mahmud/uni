@@ -1,4 +1,5 @@
 import React from 'react';
+import { BookOpen, CreditCard, Fingerprint, Mail, Smartphone } from 'lucide-react';
 
 export default function AdministrationSystem() {
   return (
@@ -56,15 +57,17 @@ export default function AdministrationSystem() {
           <h3 className="font-semibold text-slate-800 mb-6">External Integrations</h3>
           <div className="space-y-4">
             {[
-              { name: 'Payment Gateway (SSLCommerz)', status: 'Connected', ping: '12ms', icon: '💳' },
-              { name: 'SMS Gateway (Twilio)', status: 'Connected', ping: '45ms', icon: '📱' },
-              { name: 'Email Server (SendGrid)', status: 'Connected', ping: '24ms', icon: '📧' },
-              { name: 'LMS Sync (Moodle)', status: 'Syncing', ping: '120ms', icon: '📚' },
-              { name: 'Biometric Attendance (ZK)', status: 'Offline', ping: 'Timeout', icon: '👆' },
+              { name: 'Payment Gateway (SSLCommerz)', status: 'Connected', ping: '12ms', icon: CreditCard },
+              { name: 'SMS Gateway (Twilio)', status: 'Connected', ping: '45ms', icon: Smartphone },
+              { name: 'Email Server (SendGrid)', status: 'Connected', ping: '24ms', icon: Mail },
+              { name: 'LMS Sync (Moodle)', status: 'Syncing', ping: '120ms', icon: BookOpen },
+              { name: 'Biometric Attendance (ZK)', status: 'Offline', ping: 'Timeout', icon: Fingerprint },
             ].map((integration, idx) => (
               <div key={idx} className="flex justify-between items-center p-3 rounded-xl border border-slate-50 hover:bg-slate-50 transition">
                 <div className="flex items-center gap-3">
-                  <div className="text-xl">{integration.icon}</div>
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                    <integration.icon size={18} strokeWidth={1.75} />
+                  </div>
                   <div>
                     <span className="font-medium text-sm text-slate-700 block">{integration.name}</span>
                     <span className="text-xs text-slate-400">Latency: {integration.ping}</span>

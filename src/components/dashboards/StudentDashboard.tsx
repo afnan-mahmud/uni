@@ -42,7 +42,7 @@ export default function StudentDashboard() {
                 <div className="relative z-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                     <div>
                         <h1 className="text-3xl sm:text-4xl font-bold mb-2 tracking-tight">
-                            Welcome back, {student.name} 👋
+                            Welcome back, {student.name}
                         </h1>
                         <p className="text-indigo-100 text-lg font-medium flex items-center gap-3">
                             <span className="bg-white/20 px-3 py-1 rounded-lg backdrop-blur-md">{student.id}</span>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Bell, CreditCard, Users, Wallet } from "lucide-react";
 
 export default function HRDashboard() {
     const [stats, setStats] = useState({
@@ -52,9 +53,9 @@ export default function HRDashboard() {
     }
 
     const statCards = [
-        { label: "Total Students", value: stats.students, icon: "👨‍🎓", color: "from-indigo-500 to-blue-500" },
-        { label: "Payments", value: stats.payments, icon: "💰", color: "from-emerald-500 to-teal-500" },
-        { label: "Revenue", value: `৳${stats.totalRevenue.toLocaleString()}`, icon: "💵", color: "from-purple-500 to-fuchsia-500" },
+        { label: "Total Students", value: stats.students, icon: Users, tint: "bg-indigo-50 text-indigo-600" },
+        { label: "Payments", value: stats.payments, icon: CreditCard, tint: "bg-emerald-50 text-emerald-600" },
+        { label: "Revenue", value: `৳${stats.totalRevenue.toLocaleString()}`, icon: Wallet, tint: "bg-violet-50 text-violet-600" },
     ];
 
     return (
@@ -74,8 +75,8 @@ export default function HRDashboard() {
                         className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 card-hover animate-fade-in-up"
                         style={{ animationDelay: `${i * 0.05}s` }}
                     >
-                        <div className={`icon-bubble bg-gradient-to-br ${stat.color} text-white mb-4`}>
-                            {stat.icon}
+                        <div className={`icon-bubble ${stat.tint} mb-4`}>
+                            <stat.icon size={20} strokeWidth={1.75} />
                         </div>
                         <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
                         <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
@@ -87,16 +88,22 @@ export default function HRDashboard() {
                 <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <Link href="/dashboard/students" className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 card-hover flex items-center gap-3">
-                        <span className="text-2xl">👨‍🎓</span>
-                        <span className="font-medium text-slate-700">View Students</span>
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                            <Users size={18} strokeWidth={1.75} />
+                        </span>
+                        <span className="text-sm font-medium text-slate-700">View Students</span>
                     </Link>
                     <Link href="/dashboard/payments" className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 card-hover flex items-center gap-3">
-                        <span className="text-2xl">💰</span>
-                        <span className="font-medium text-slate-700">View Payments</span>
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                            <CreditCard size={18} strokeWidth={1.75} />
+                        </span>
+                        <span className="text-sm font-medium text-slate-700">View Payments</span>
                     </Link>
                     <Link href="/dashboard/notifications" className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 card-hover flex items-center gap-3">
-                        <span className="text-2xl">🔔</span>
-                        <span className="font-medium text-slate-700">Notifications</span>
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                            <Bell size={18} strokeWidth={1.75} />
+                        </span>
+                        <span className="text-sm font-medium text-slate-700">Notifications</span>
                     </Link>
                 </div>
             </div>

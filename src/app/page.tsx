@@ -232,7 +232,7 @@ export default function Home() {
                 A proud initiative of <span className="text-slate-400 font-medium">Launchpad</span> — Specializing in AI System Development and Enterprise Custom Software Solutions.
               </p>
             </div>
-            <p className="whitespace-nowrap">Made with ❤️ for Education</p>
+            <p className="whitespace-nowrap">Built for Education</p>
           </div>
         </div>
       </footer>

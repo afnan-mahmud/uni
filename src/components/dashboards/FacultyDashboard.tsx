@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { BarChart3, BookOpen, FileCheck2, UserCheck } from "lucide-react";
 
 export default function FacultyDashboard() {
     const [stats, setStats] = useState({
@@ -54,17 +55,17 @@ export default function FacultyDashboard() {
     }
 
     const statCards = [
-        { label: "Assigned Courses", value: stats.courses, icon: "📚", color: "from-indigo-500 to-blue-500" },
-        { label: "Exams Scheduled", value: stats.exams, icon: "📋", color: "from-emerald-500 to-teal-500" },
-        { label: "Results Entered", value: stats.results, icon: "📊", color: "from-purple-500 to-fuchsia-500" },
-        { label: "Attendance Records", value: stats.attendance, icon: "✅", color: "from-amber-500 to-orange-500" },
+        { label: "Assigned Courses", value: stats.courses, icon: BookOpen, tint: "bg-indigo-50 text-indigo-600" },
+        { label: "Exams Scheduled", value: stats.exams, icon: FileCheck2, tint: "bg-emerald-50 text-emerald-600" },
+        { label: "Results Entered", value: stats.results, icon: BarChart3, tint: "bg-violet-50 text-violet-600" },
+        { label: "Attendance Records", value: stats.attendance, icon: UserCheck, tint: "bg-amber-50 text-amber-600" },
     ];
 
     const quickActions = [
-        { label: "Mark Attendance", href: "/dashboard/attendance", icon: "✅" },
-        { label: "Schedule Exam", href: "/dashboard/exams", icon: "📋" },
-        { label: "Enter Results", href: "/dashboard/results", icon: "📊" },
-        { label: "View Courses", href: "/dashboard/courses", icon: "📚" },
+        { label: "Mark Attendance", href: "/dashboard/attendance", icon: UserCheck },
+        { label: "Schedule Exam", href: "/dashboard/exams", icon: FileCheck2 },
+        { label: "Enter Results", href: "/dashboard/results", icon: BarChart3 },
+        { label: "View Courses", href: "/dashboard/courses", icon: BookOpen },
     ];
 
     return (
@@ -84,8 +85,8 @@ export default function FacultyDashboard() {
                         className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 card-hover animate-fade-in-up"
                         style={{ animationDelay: `${i * 0.05}s` }}
                     >
-                        <div className={`icon-bubble bg-gradient-to-br ${stat.color} text-white mb-4`}>
-                            {stat.icon}
+                        <div className={`icon-bubble ${stat.tint} mb-4`}>
+                            <stat.icon size={20} strokeWidth={1.75} />
                         </div>
                         <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
                         <p className="text-sm text-slate-500 mt-1">{stat.label}</p>
@@ -102,8 +103,10 @@ export default function FacultyDashboard() {
                             href={action.href}
                             className="bg-white rounded-xl p-5 shadow-sm border border-slate-100 card-hover flex items-center gap-3"
                         >
-                            <span className="text-2xl">{action.icon}</span>
-                            <span className="font-medium text-slate-700">{action.label}</span>
+                            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                                <action.icon size={18} strokeWidth={1.75} />
+                            </span>
+                            <span className="text-sm font-medium text-slate-700">{action.label}</span>
                         </Link>
                     ))}
                 </div>

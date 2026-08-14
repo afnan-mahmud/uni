@@ -4,277 +4,289 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { canAccessRoute, type DemoUser, type UserRole } from "@/lib/demoAuth";
+import {
+    Activity, Ambulance, Award, BadgeCheck, Banknote, BarChart3, BedDouble, Bell, BellRing,
+    BookMarked, BookOpen, BookText, Building2, Bus, Calculator, Calendar, CalendarCheck,
+    CalendarClock, CalendarDays, CalendarX, ClipboardCheck, ClipboardList, Contact, CreditCard,
+    FileBadge, FileBarChart, FileCheck2, FileSpreadsheet, FileText, FolderOpen, Gauge, Gavel,
+    GraduationCap, Handshake, IdCard, Inbox, KeyRound, Landmark, Laptop, LayoutDashboard,
+    LayoutGrid, Library, LineChart, LogOut, Mail, Megaphone, Menu, MessageSquareWarning,
+    MessagesSquare,
+    Monitor, Percent, PieChart, School, ScrollText, SearchCheck, Send, Settings, ShieldCheck,
+    ShoppingCart, Smartphone, TrendingDown, TrendingUp, Trophy, Undo2, User, UserCheck, UserCog,
+    UserPlus, Users, UsersRound, Wallet, Warehouse, Workflow, type LucideIcon,
+} from "lucide-react";
 
 interface NavItem {
     label: string;
     href: string;
-    icon: string;
+    icon: LucideIcon;
 }
 
 
 const ACADEMIC_MODULE_NAV: NavItem[] = [
-    { label: "Institution Structure", href: "/dashboard/academics/institution-structure", icon: "🏛️" },
-    { label: "Academic Year", href: "/dashboard/academics/academic-year", icon: "📅" },
+    { label: "Institution Structure", href: "/dashboard/academics/institution-structure", icon: Landmark },
+    { label: "Academic Year", href: "/dashboard/academics/academic-year", icon: CalendarDays },
 
-    { label: "Program Management", href: "/dashboard/academics/program-management", icon: "🎓" },
-    { label: "Course Management", href: "/dashboard/academics/course-management", icon: "📚" },
-    { label: "Curriculum Management", href: "/dashboard/academics/curriculum", icon: "📜" },
+    { label: "Program Management", href: "/dashboard/academics/program-management", icon: GraduationCap },
+    { label: "Course Management", href: "/dashboard/academics/course-management", icon: BookOpen },
+    { label: "Curriculum Management", href: "/dashboard/academics/curriculum", icon: ScrollText },
 
-    { label: "Class Sections", href: "/dashboard/academics/section-management", icon: "🏫" },
-    { label: "Class Scheduling", href: "/dashboard/academics/class-scheduling", icon: "⏰" },
-    { label: "Academic Calendar", href: "/dashboard/academics/calendar", icon: "🗓️" },
+    { label: "Class Sections", href: "/dashboard/academics/section-management", icon: School },
+    { label: "Class Scheduling", href: "/dashboard/academics/class-scheduling", icon: CalendarClock },
+    { label: "Academic Calendar", href: "/dashboard/academics/calendar", icon: Calendar },
 
-    { label: "Course Reg Setup", href: "/dashboard/academics/registration", icon: "📝" },
-    { label: "Academic Advising", href: "/dashboard/academics/advising", icon: "🤝" },
-    { label: "Academic Requests", href: "/dashboard/academics/requests", icon: "✉️" },
+    { label: "Course Reg Setup", href: "/dashboard/academics/registration", icon: ClipboardList },
+    { label: "Academic Advising", href: "/dashboard/academics/advising", icon: Handshake },
+    { label: "Academic Requests", href: "/dashboard/academics/requests", icon: Mail },
 
-    { label: "Attendance Record", href: "/dashboard/academics/attendance", icon: "✅" },
-    { label: "Assessment Setup", href: "/dashboard/academics/assessment", icon: "📝" },
-    { label: "Exam Management", href: "/dashboard/academics/examination", icon: "📋" },
-    { label: "Result & Grading", href: "/dashboard/academics/result-grading", icon: "📊" },
-    { label: "Student Progress", href: "/dashboard/academics/progress", icon: "📈" },
+    { label: "Attendance Record", href: "/dashboard/academics/attendance", icon: UserCheck },
+    { label: "Assessment Setup", href: "/dashboard/academics/assessment", icon: ClipboardCheck },
+    { label: "Exam Management", href: "/dashboard/academics/examination", icon: FileCheck2 },
+    { label: "Result & Grading", href: "/dashboard/academics/result-grading", icon: BarChart3 },
+    { label: "Student Progress", href: "/dashboard/academics/progress", icon: TrendingUp },
 
-    { label: "Academic Documents", href: "/dashboard/academics/documents", icon: "📄" },
-    { label: "Academic Analytics", href: "/dashboard/academics/analytics", icon: "📉" }
+    { label: "Academic Documents", href: "/dashboard/academics/documents", icon: FileText },
+    { label: "Academic Analytics", href: "/dashboard/academics/analytics", icon: LineChart }
 ];
 
 
 const FACULTY_PORTAL_NAV: NavItem[] = [
-    { label: "My Classes", href: "/dashboard/academics/section-management", icon: "🏫" },
-    { label: "My Schedule", href: "/dashboard/academics/class-scheduling", icon: "⏰" },
-    { label: "Academic Calendar", href: "/dashboard/academics/calendar", icon: "🗓️" },
-    
-    { label: "Advisee Students", href: "/dashboard/academics/advising", icon: "🤝" },
-    
-    { label: "Attendance Entry", href: "/dashboard/academics/attendance", icon: "✅" },
-    { label: "Assessments Setup", href: "/dashboard/academics/assessment", icon: "📝" },
-    { label: "Exam Duties", href: "/dashboard/academics/examination", icon: "📋" },
-    { label: "Marks Entry", href: "/dashboard/academics/result-grading", icon: "📊" },
-    
-    { label: "Faculty Analytics", href: "/dashboard/academics/analytics", icon: "📉" }
+    { label: "My Classes", href: "/dashboard/academics/section-management", icon: School },
+    { label: "My Schedule", href: "/dashboard/academics/class-scheduling", icon: CalendarClock },
+    { label: "Academic Calendar", href: "/dashboard/academics/calendar", icon: Calendar },
+
+    { label: "Advisee Students", href: "/dashboard/academics/advising", icon: Handshake },
+
+    { label: "Attendance Entry", href: "/dashboard/academics/attendance", icon: UserCheck },
+    { label: "Assessments Setup", href: "/dashboard/academics/assessment", icon: ClipboardCheck },
+    { label: "Exam Duties", href: "/dashboard/academics/examination", icon: FileCheck2 },
+    { label: "Marks Entry", href: "/dashboard/academics/result-grading", icon: BarChart3 },
+
+    { label: "Faculty Analytics", href: "/dashboard/academics/analytics", icon: LineChart }
 ];
 
 const ADMINISTRATION_MODULE_NAV: NavItem[] = [
-    { label: "Organization", href: "/dashboard/administration/organization-management", icon: "🏛️" },
-    { label: "Admin Staff", href: "/dashboard/administration/admin-staff", icon: "🧑‍💼" },
-    { label: "Offices & Depts", href: "/dashboard/administration/office-department", icon: "🏢" },
+    { label: "Organization", href: "/dashboard/administration/organization-management", icon: Landmark },
+    { label: "Admin Staff", href: "/dashboard/administration/admin-staff", icon: UserCog },
+    { label: "Offices & Depts", href: "/dashboard/administration/office-department", icon: Building2 },
 
-    { label: "User Access", href: "/dashboard/administration/user-access", icon: "🔐" },
-    { label: "Security Settings", href: "/dashboard/administration/security-administration", icon: "🛡️" },
-    { label: "Compliance & Audit", href: "/dashboard/administration/compliance-audit", icon: "📋" },
+    { label: "User Access", href: "/dashboard/administration/user-access", icon: KeyRound },
+    { label: "Security Settings", href: "/dashboard/administration/security-administration", icon: ShieldCheck },
+    { label: "Compliance & Audit", href: "/dashboard/administration/compliance-audit", icon: ClipboardList },
 
-    { label: "Workflow Config", href: "/dashboard/administration/workflow-management", icon: "⚙️" },
-    { label: "Official Documents", href: "/dashboard/administration/document-record", icon: "📁" },
-    { label: "Correspondence", href: "/dashboard/administration/correspondence", icon: "✉️" },
-    { label: "Notices & Broadcasts", href: "/dashboard/administration/notice-communication", icon: "📢" },
+    { label: "Workflow Config", href: "/dashboard/administration/workflow-management", icon: Workflow },
+    { label: "Official Documents", href: "/dashboard/administration/document-record", icon: FolderOpen },
+    { label: "Correspondence", href: "/dashboard/administration/correspondence", icon: Mail },
+    { label: "Notices & Broadcasts", href: "/dashboard/administration/notice-communication", icon: Megaphone },
 
-    { label: "Meeting Manager", href: "/dashboard/administration/meeting-management", icon: "🤝" },
-    { label: "Committee Manager", href: "/dashboard/administration/committee-management", icon: "👥" },
+    { label: "Meeting Manager", href: "/dashboard/administration/meeting-management", icon: CalendarClock },
+    { label: "Committee Manager", href: "/dashboard/administration/committee-management", icon: Users },
 
-    { label: "Facilities & Spaces", href: "/dashboard/administration/facility-resource", icon: "🏫" },
-    { label: "Asset Registry", href: "/dashboard/administration/asset-administration", icon: "💻" },
-    { label: "Procurement", href: "/dashboard/administration/procurement", icon: "🛒" },
+    { label: "Facilities & Spaces", href: "/dashboard/administration/facility-resource", icon: Warehouse },
+    { label: "Asset Registry", href: "/dashboard/administration/asset-administration", icon: Laptop },
+    { label: "Procurement", href: "/dashboard/administration/procurement", icon: ShoppingCart },
 
-    { label: "Service Requests", href: "/dashboard/administration/service-request", icon: "🎫" },
-    { label: "Global Policies", href: "/dashboard/administration/policy-configuration", icon: "📜" },
-    { label: "Alert Configs", href: "/dashboard/administration/notification-configuration", icon: "🔔" },
-    { label: "Reports", href: "/dashboard/administration/reporting", icon: "📊" },
-    { label: "System Health", href: "/dashboard/administration/system-administration", icon: "💻" }
+    { label: "Service Requests", href: "/dashboard/administration/service-request", icon: Inbox },
+    { label: "Global Policies", href: "/dashboard/administration/policy-configuration", icon: ScrollText },
+    { label: "Alert Configs", href: "/dashboard/administration/notification-configuration", icon: BellRing },
+    { label: "Reports", href: "/dashboard/administration/reporting", icon: BarChart3 },
+    { label: "System Health", href: "/dashboard/administration/system-administration", icon: Activity }
 ];
 
 const STUDENT_PORTAL_NAV: NavItem[] = [
-    { label: "My Master Profile", href: "/dashboard/students/master-profile", icon: "👤" },
-    { label: "My ID Card", href: "/dashboard/students/identity", icon: "🪪" },
-    { label: "My Personal Info", href: "/dashboard/students/personal-info", icon: "📄" },
-    { label: "My Emergency Contact", href: "/dashboard/students/emergency", icon: "🚑" },
-    { label: "My Academic Profile", href: "/dashboard/students/academic-profile", icon: "🎓" },
+    { label: "My Master Profile", href: "/dashboard/students/master-profile", icon: User },
+    { label: "My ID Card", href: "/dashboard/students/identity", icon: IdCard },
+    { label: "My Personal Info", href: "/dashboard/students/personal-info", icon: Contact },
+    { label: "My Emergency Contact", href: "/dashboard/students/emergency", icon: Ambulance },
+    { label: "My Academic Profile", href: "/dashboard/students/academic-profile", icon: GraduationCap },
 
-    { label: "Enrollment Status", href: "/dashboard/students/enrollment", icon: "✅" },
-    { label: "My Course Reg", href: "/dashboard/students/registration", icon: "📚" },
-    { label: "My Progress", href: "/dashboard/students/progress", icon: "📈" },
-    { label: "My Attendance", href: "/dashboard/students/attendance", icon: "🕒" },
-    { label: "Exam Schedule", href: "/dashboard/students/examination", icon: "📋" },
-    { label: "My Results", href: "/dashboard/students/results", icon: "📊" },
-    { label: "Transcript Request", href: "/dashboard/students/transcript", icon: "📜" },
+    { label: "Enrollment Status", href: "/dashboard/students/enrollment", icon: UserCheck },
+    { label: "My Course Reg", href: "/dashboard/students/registration", icon: BookOpen },
+    { label: "My Progress", href: "/dashboard/students/progress", icon: TrendingUp },
+    { label: "My Attendance", href: "/dashboard/students/attendance", icon: CalendarCheck },
+    { label: "Exam Schedule", href: "/dashboard/students/examination", icon: FileCheck2 },
+    { label: "My Results", href: "/dashboard/students/results", icon: BarChart3 },
+    { label: "Transcript Request", href: "/dashboard/students/transcript", icon: ScrollText },
 
-    { label: "My Finance", href: "/dashboard/students/finance", icon: "💰" },
-    { label: "My Scholarships", href: "/dashboard/students/scholarships", icon: "🏅" },
-    { label: "My Documents", href: "/dashboard/students/documents", icon: "📁" },
-    { label: "Certificate Requests", href: "/dashboard/students/certificates", icon: "🎓" },
+    { label: "My Finance", href: "/dashboard/students/finance", icon: Wallet },
+    { label: "My Scholarships", href: "/dashboard/students/scholarships", icon: Award },
+    { label: "My Documents", href: "/dashboard/students/documents", icon: FolderOpen },
+    { label: "Certificate Requests", href: "/dashboard/students/certificates", icon: FileBadge },
 
-    { label: "My Requests", href: "/dashboard/students/requests", icon: "✉️" },
-    { label: "File a Complaint", href: "/dashboard/students/complaints", icon: "⚠️" },
-    { label: "Leave Application", href: "/dashboard/students/leave", icon: "🌴" },
+    { label: "My Requests", href: "/dashboard/students/requests", icon: Mail },
+    { label: "File a Complaint", href: "/dashboard/students/complaints", icon: MessageSquareWarning },
+    { label: "Leave Application", href: "/dashboard/students/leave", icon: CalendarX },
 
-    { label: "Library Status", href: "/dashboard/students/library", icon: "📚" },
-    { label: "Hostel Info", href: "/dashboard/students/hostel", icon: "🛏️" },
-    { label: "Transport Pass", href: "/dashboard/students/transport", icon: "🚌" },
-    { label: "My Clubs", href: "/dashboard/students/clubs", icon: "⚽" },
+    { label: "Library Status", href: "/dashboard/students/library", icon: Library },
+    { label: "Hostel Info", href: "/dashboard/students/hostel", icon: BedDouble },
+    { label: "Transport Pass", href: "/dashboard/students/transport", icon: Bus },
+    { label: "My Clubs", href: "/dashboard/students/clubs", icon: Trophy },
 ];
 
 const STUDENT_MODULE_NAV: NavItem[] = [
-    { label: "Master Profile", href: "/dashboard/students/master-profile", icon: "👤" },
-    { label: "Identity & IDs", href: "/dashboard/students/identity", icon: "🪪" },
-    { label: "Personal Info", href: "/dashboard/students/personal-info", icon: "📄" },
-    { label: "Family & Guardian", href: "/dashboard/students/family", icon: "👨‍👩‍👧‍👦" },
-    { label: "Emergency Contact", href: "/dashboard/students/emergency", icon: "🚑" },
-    { label: "Academic Profile", href: "/dashboard/students/academic-profile", icon: "🎓" },
-    { label: "Program & Batch", href: "/dashboard/students/program", icon: "🏛️" },
-    { label: "Student Status", href: "/dashboard/students/status", icon: "🟢" },
+    { label: "Master Profile", href: "/dashboard/students/master-profile", icon: User },
+    { label: "Identity & IDs", href: "/dashboard/students/identity", icon: IdCard },
+    { label: "Personal Info", href: "/dashboard/students/personal-info", icon: Contact },
+    { label: "Family & Guardian", href: "/dashboard/students/family", icon: UsersRound },
+    { label: "Emergency Contact", href: "/dashboard/students/emergency", icon: Ambulance },
+    { label: "Academic Profile", href: "/dashboard/students/academic-profile", icon: GraduationCap },
+    { label: "Program & Batch", href: "/dashboard/students/program", icon: Landmark },
+    { label: "Student Status", href: "/dashboard/students/status", icon: BadgeCheck },
 
-    { label: "Admission History", href: "/dashboard/students/admission", icon: "📝" },
-    { label: "Enrollment", href: "/dashboard/students/enrollment", icon: "✅" },
-    { label: "Course Registration", href: "/dashboard/students/registration", icon: "📚" },
-    { label: "Academic Progress", href: "/dashboard/students/progress", icon: "📈" },
-    { label: "Student Attendance", href: "/dashboard/students/attendance", icon: "🕒" },
-    { label: "Examination", href: "/dashboard/students/examination", icon: "📋" },
-    { label: "Results & GPA", href: "/dashboard/students/results", icon: "📊" },
-    { label: "Transcript", href: "/dashboard/students/transcript", icon: "📜" },
+    { label: "Admission History", href: "/dashboard/students/admission", icon: ClipboardList },
+    { label: "Enrollment", href: "/dashboard/students/enrollment", icon: UserPlus },
+    { label: "Course Registration", href: "/dashboard/students/registration", icon: BookOpen },
+    { label: "Academic Progress", href: "/dashboard/students/progress", icon: TrendingUp },
+    { label: "Student Attendance", href: "/dashboard/students/attendance", icon: CalendarCheck },
+    { label: "Examination", href: "/dashboard/students/examination", icon: FileCheck2 },
+    { label: "Results & GPA", href: "/dashboard/students/results", icon: BarChart3 },
+    { label: "Transcript", href: "/dashboard/students/transcript", icon: ScrollText },
 
-    { label: "Student Finance", href: "/dashboard/students/finance", icon: "💰" },
-    { label: "Scholarships", href: "/dashboard/students/scholarships", icon: "🏅" },
-    { label: "Documents", href: "/dashboard/students/documents", icon: "📁" },
-    { label: "Certificates", href: "/dashboard/students/certificates", icon: "🎓" },
+    { label: "Student Finance", href: "/dashboard/students/finance", icon: Wallet },
+    { label: "Scholarships", href: "/dashboard/students/scholarships", icon: Award },
+    { label: "Documents", href: "/dashboard/students/documents", icon: FolderOpen },
+    { label: "Certificates", href: "/dashboard/students/certificates", icon: FileBadge },
 
-    { label: "Requests", href: "/dashboard/students/requests", icon: "✉️" },
-    { label: "Complaints", href: "/dashboard/students/complaints", icon: "⚠️" },
-    { label: "Disciplinary", href: "/dashboard/students/disciplinary", icon: "⚖️" },
-    { label: "Leave & Absence", href: "/dashboard/students/leave", icon: "🌴" },
+    { label: "Requests", href: "/dashboard/students/requests", icon: Mail },
+    { label: "Complaints", href: "/dashboard/students/complaints", icon: MessageSquareWarning },
+    { label: "Disciplinary", href: "/dashboard/students/disciplinary", icon: Gavel },
+    { label: "Leave & Absence", href: "/dashboard/students/leave", icon: CalendarX },
 
-    { label: "Library Access", href: "/dashboard/students/library", icon: "📚" },
-    { label: "Hostel Allocation", href: "/dashboard/students/hostel", icon: "🛏️" },
-    { label: "Transport", href: "/dashboard/students/transport", icon: "🚌" },
-    { label: "Clubs & Activities", href: "/dashboard/students/clubs", icon: "⚽" },
+    { label: "Library Access", href: "/dashboard/students/library", icon: Library },
+    { label: "Hostel Allocation", href: "/dashboard/students/hostel", icon: BedDouble },
+    { label: "Transport", href: "/dashboard/students/transport", icon: Bus },
+    { label: "Clubs & Activities", href: "/dashboard/students/clubs", icon: Trophy },
 
-    { label: "Communication", href: "/dashboard/students/communication", icon: "💬" },
-    { label: "Student Portal Access", href: "/dashboard/students/student-portal", icon: "💻" },
-    { label: "Guardian Portal Access", href: "/dashboard/students/guardian-portal", icon: "👨‍👩‍👧" },
+    { label: "Communication", href: "/dashboard/students/communication", icon: MessagesSquare },
+    { label: "Student Portal Access", href: "/dashboard/students/student-portal", icon: Monitor },
+    { label: "Guardian Portal Access", href: "/dashboard/students/guardian-portal", icon: Smartphone },
 
-    { label: "Graduation", href: "/dashboard/students/graduation", icon: "🎓" },
-    { label: "Alumni Transition", href: "/dashboard/students/alumni", icon: "🤝" },
-    
-    { label: "Student Analytics", href: "/dashboard/students/analytics", icon: "📈" },
+    { label: "Graduation", href: "/dashboard/students/graduation", icon: GraduationCap },
+    { label: "Alumni Transition", href: "/dashboard/students/alumni", icon: Handshake },
+
+    { label: "Student Analytics", href: "/dashboard/students/analytics", icon: LineChart },
 ];
 
 const ROLE_NAV: Record<string, NavItem[]> = {
     super_admin: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
         ...ADMINISTRATION_MODULE_NAV,
-        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Payments", href: "/dashboard/payments", icon: CreditCard },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     admin: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
         ...ADMINISTRATION_MODULE_NAV,
-        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Payments", href: "/dashboard/payments", icon: CreditCard },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     registrar: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     dean: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...ACADEMIC_MODULE_NAV,
-        { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Students", href: "/dashboard/students", icon: Users },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     hod: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...ACADEMIC_MODULE_NAV,
-        { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Students", href: "/dashboard/students", icon: Users },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     faculty: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...FACULTY_PORTAL_NAV,
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     student: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...STUDENT_PORTAL_NAV,
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     guardian: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Attendance", href: "/dashboard/attendance", icon: "✅" },
-        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Results", href: "/dashboard/results", icon: BarChart3 },
+        { label: "Attendance", href: "/dashboard/attendance", icon: CalendarCheck },
+        { label: "Payments", href: "/dashboard/payments", icon: CreditCard },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     admission_officer: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...STUDENT_MODULE_NAV,
-        { label: "Programs", href: "/dashboard/programs", icon: "🎓" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Programs", href: "/dashboard/programs", icon: GraduationCap },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     finance_officer: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Fee Structure", href: "/dashboard/finance/fee-structure", icon: "📑" },
-        { label: "Student Billing", href: "/dashboard/finance/student-billing", icon: "🧾" },
-        { label: "Accounts Receivable", href: "/dashboard/finance/accounts-receivable", icon: "📥" },
-        { label: "Payment Management", href: "/dashboard/finance/payments", icon: "💳" },
-        { label: "Refund Management", href: "/dashboard/finance/refunds", icon: "💸" },
-        { label: "Scholarship & Waiver", href: "/dashboard/finance/scholarships", icon: "🎓" },
-        { label: "Student Ledger", href: "/dashboard/finance/student-ledger", icon: "📒" },
-        { label: "General Accounting", href: "/dashboard/finance/general-accounting", icon: "📓" },
-        { label: "Chart of Accounts", href: "/dashboard/finance/chart-of-accounts", icon: "🗂️" },
-        { label: "Journal & Ledger", href: "/dashboard/finance/journal-ledger", icon: "📖" },
-        { label: "Accounts Payable", href: "/dashboard/finance/accounts-payable", icon: "📤" },
-        { label: "Vendor Management", href: "/dashboard/finance/vendor-management", icon: "🏢" },
-        { label: "Expense Management", href: "/dashboard/finance/expenses", icon: "📉" },
-        { label: "Budget Management", href: "/dashboard/finance/budgets", icon: "📈" },
-        { label: "Bank & Cash", href: "/dashboard/finance/bank-cash", icon: "🏦" },
-        { label: "Payroll", href: "/dashboard/finance/payroll", icon: "🧑‍💼" },
-        { label: "Tax & Statutory", href: "/dashboard/finance/tax", icon: "🏛️" },
-        { label: "Financial Reporting", href: "/dashboard/finance/reporting", icon: "📑" },
-        { label: "Financial Dashboard", href: "/dashboard/finance", icon: "📈" },
-        { label: "Reconciliation", href: "/dashboard/finance/reconciliation", icon: "⚖️" },
-        { label: "Audit & Controls", href: "/dashboard/finance/audit", icon: "🔍" },
-        { label: "Finance Configuration", href: "/dashboard/finance/configuration", icon: "⚙️" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Fee Structure", href: "/dashboard/finance/fee-structure", icon: FileSpreadsheet },
+        { label: "Student Billing", href: "/dashboard/finance/student-billing", icon: FileText },
+        { label: "Accounts Receivable", href: "/dashboard/finance/accounts-receivable", icon: Inbox },
+        { label: "Payment Management", href: "/dashboard/finance/payments", icon: CreditCard },
+        { label: "Refund Management", href: "/dashboard/finance/refunds", icon: Undo2 },
+        { label: "Scholarship & Waiver", href: "/dashboard/finance/scholarships", icon: Award },
+        { label: "Student Ledger", href: "/dashboard/finance/student-ledger", icon: BookMarked },
+        { label: "General Accounting", href: "/dashboard/finance/general-accounting", icon: Calculator },
+        { label: "Chart of Accounts", href: "/dashboard/finance/chart-of-accounts", icon: LayoutGrid },
+        { label: "Journal & Ledger", href: "/dashboard/finance/journal-ledger", icon: BookText },
+        { label: "Accounts Payable", href: "/dashboard/finance/accounts-payable", icon: Send },
+        { label: "Vendor Management", href: "/dashboard/finance/vendor-management", icon: Building2 },
+        { label: "Expense Management", href: "/dashboard/finance/expenses", icon: TrendingDown },
+        { label: "Budget Management", href: "/dashboard/finance/budgets", icon: PieChart },
+        { label: "Bank & Cash", href: "/dashboard/finance/bank-cash", icon: Landmark },
+        { label: "Payroll", href: "/dashboard/finance/payroll", icon: Banknote },
+        { label: "Tax & Statutory", href: "/dashboard/finance/tax", icon: Percent },
+        { label: "Financial Reporting", href: "/dashboard/finance/reporting", icon: FileBarChart },
+        { label: "Financial Dashboard", href: "/dashboard/finance", icon: Gauge },
+        { label: "Reconciliation", href: "/dashboard/finance/reconciliation", icon: ClipboardCheck },
+        { label: "Audit & Controls", href: "/dashboard/finance/audit", icon: SearchCheck },
+        { label: "Finance Configuration", href: "/dashboard/finance/configuration", icon: Settings },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     accountant: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Payments", href: "/dashboard/payments", icon: "💰" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Payments", href: "/dashboard/payments", icon: CreditCard },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     hr_officer: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     examination_officer: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Exams", href: "/dashboard/exams", icon: "📋" },
-        { label: "Results", href: "/dashboard/results", icon: "📊" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Exams", href: "/dashboard/exams", icon: FileCheck2 },
+        { label: "Results", href: "/dashboard/results", icon: BarChart3 },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     librarian: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     hostel_manager: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Students", href: "/dashboard/students", icon: Users },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     transport_manager: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
-        { label: "Students", href: "/dashboard/students", icon: "👨‍🎓" },
-        { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
+        { label: "Students", href: "/dashboard/students", icon: Users },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
     it_admin: [
-        { label: "Overview", href: "/dashboard", icon: "📊" },
+        { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
         ...STUDENT_MODULE_NAV,
         ...ACADEMIC_MODULE_NAV,
         ...ADMINISTRATION_MODULE_NAV,
-                { label: "Notifications", href: "/dashboard/notifications", icon: "🔔" },
+        { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
 };
 
@@ -560,27 +572,43 @@ export default function DashboardLayout({
                     </div>
 
                     {/* Nav */}
-                    <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-6">
+                    <nav className="flex-1 overflow-y-auto px-3 py-6 space-y-6">
                         {Object.entries(groupedItems).map(([group, items]) => (
                             <div key={group}>
-                                <h3 className="px-3 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                                <h3 className="px-3 text-[10px] font-semibold text-slate-500 uppercase tracking-[0.12em] mb-2">
                                     {group}
                                 </h3>
-                                <div className="space-y-1">
-                                    {items.map((item) => (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href}
-                                            className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 group ${
-                                                pathname === item.href 
-                                                    ? "bg-indigo-500/10 text-indigo-400" 
-                                                    : "text-slate-400 hover:bg-slate-800/50 hover:text-slate-200"
-                                            }`}
-                                        >
-                                            <span className={`text-lg transition-transform duration-200 ${pathname === item.href ? 'scale-110' : 'group-hover:scale-110'}`}>{item.icon}</span>
-                                            <span>{item.label}</span>
-                                        </Link>
-                                    ))}
+                                <div className="space-y-0.5">
+                                    {items.map((item) => {
+                                        const active = pathname === item.href;
+                                        const Icon = item.icon;
+                                        return (
+                                            <Link
+                                                key={item.href}
+                                                href={item.href}
+                                                aria-current={active ? "page" : undefined}
+                                                className={`group relative flex items-center gap-3 pl-3 pr-3 py-2 rounded-md text-[13px] transition-colors duration-150 ${
+                                                    active
+                                                        ? "bg-slate-800/70 text-white font-medium"
+                                                        : "text-slate-400 font-normal hover:bg-slate-800/40 hover:text-slate-100"
+                                                }`}
+                                            >
+                                                <span
+                                                    className={`absolute left-0 top-1/2 -translate-y-1/2 w-0.5 rounded-r-full bg-indigo-400 transition-all duration-150 ${
+                                                        active ? "h-5 opacity-100" : "h-0 opacity-0"
+                                                    }`}
+                                                />
+                                                <Icon
+                                                    size={16}
+                                                    strokeWidth={active ? 2 : 1.75}
+                                                    className={`shrink-0 transition-colors duration-150 ${
+                                                        active ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-300"
+                                                    }`}
+                                                />
+                                                <span className="truncate">{item.label}</span>
+                                            </Link>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
@@ -612,10 +640,9 @@ export default function DashboardLayout({
                                 onClick={handleLogout}
                                 className="text-slate-400 hover:text-red-400 transition"
                                 title="Logout"
+                                aria-label="Logout"
                             >
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                </svg>
+                                <LogOut size={18} strokeWidth={1.75} />
                             </button>
                         </div>
                         <div className="mt-4 pt-4 border-t border-slate-800/40 text-center">
@@ -649,10 +676,9 @@ export default function DashboardLayout({
                             <button
                                 onClick={() => setSidebarOpen(!sidebarOpen)}
                                 className="lg:hidden p-2 rounded-lg hover:bg-slate-100 transition"
+                                aria-label="Toggle navigation"
                             >
-                                <svg className="w-6 h-6 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                                </svg>
+                                <Menu size={22} strokeWidth={1.75} className="text-slate-700" />
                             </button>
                             <div>
                                 <h2 className="text-lg font-semibold text-slate-900">
@@ -672,10 +698,9 @@ export default function DashboardLayout({
                             <Link
                                 href="/dashboard/notifications"
                                 className="p-2 rounded-xl hover:bg-slate-100 transition relative bg-white border border-slate-200/60 shadow-sm"
+                                aria-label="Notifications"
                             >
-                                <svg className="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                                </svg>
+                                <Bell size={18} strokeWidth={1.75} className="text-slate-600" />
                                 <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white"></span>
                             </Link>
                             {user?.avatar ? (
